@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Interface</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div id="mainArea">
+      <div id="messageBar">
+        <div class="sendMessage" onclick="">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20"
+            viewBox="0 -960 960 960"
+            width="20"
+          >
+            <path
+              d="M80-80v-720q0-33 23.5-56.5T160-880h404q-4 20-4 40t4 40H160v525l46-45h594v-324q23-5 43-13.5t37-22.5v360q0 33-23.5 56.5T800-240H240L80-80Zm80-720v480-480Zm600 80q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35Z"
+            />
+          </svg>
+          <p>Unread: 0</p>
+        </div>
+
+        <div class="sendMessage" onclick="openModal(event)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20"
+            viewBox="0 -960 960 960"
+            width="20"
+          >
+            <path
+              d="M320-320h480v-120H698q-21 37-58 58.5T560-360q-42 0-79-21.5T422-440H320v120Zm240-120q34 0 57-23.5t23-56.5h160v-280H320v280h160q0 33 23.5 56.5T560-440ZM320-240q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-240h480-480Z"
+            />
+          </svg>
+          <p>Send Message to All Courses</p>
+        </div>
+
+        <div class="sendMessage" onclick="openModal(event)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20"
+            viewBox="0 -960 960 960"
+            width="20"
+          >
+            <path
+              d="M480-160q-48-38-104-59t-116-21q-42 0-82.5 11T100-198q-21 11-40.5-1T40-234v-482q0-11 5.5-21T62-752q46-24 96-36t102-12q58 0 113.5 15T480-740v484q51-32 107-48t113-16q36 0 70.5 6t69.5 18v-480q15 5 29.5 10.5T898-752q11 5 16.5 15t5.5 21v482q0 23-19.5 35t-40.5 1q-37-20-77.5-31T700-240q-60 0-116 21t-104 59Zm80-200v-380l200-200v400L560-360Zm-160 65v-396q-33-14-68.5-21.5T260-720q-37 0-72 7t-68 21v397q35-13 69.5-19t70.5-6q36 0 70.5 6t69.5 19Zm0 0v-396 396Z"
+            />
+          </svg>
+          <p>Send Message to Specific Course</p>
+        </div>
+        <div class="sendMessage" onclick="openModal(event)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="22"
+            viewBox="0 -960 960 960"
+            width="22"
+          >
+            <path
+              d="M480-120 200-272v-240L40-600l440-240 440 240v320h-80v-276l-80 44v240L480-120Zm0-332 274-148-274-148-274 148 274 148Zm0 241 200-108v-151L480-360 280-470v151l200 108Zm0-241Zm0 90Zm0 0Z"
+            />
+          </svg>
+          <p>Send Message to Student</p>
+        </div>
+      </div>
+      <div id="messageArea" style="display: none">
+        <h3 id="messageAreaTitle"></h3>
+        <div id="messages"></div>
+        <div id="textBox">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 -960 960 960"
+            width="24"
+          >
+            <path
+              d="M160-400v-80h280v80H160Zm0-160v-80h440v80H160Zm0-160v-80h440v80H160Zm360 560v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T863-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z"
+            />
+          </svg>
+          <input id="textInput" />
+          <button id="textButton">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-container" onclick="closeModal(event)">
+      <div id="modal" onclick="stopPropagation(event)">
+        <div id="modelFirstChild">
+          <h3 id="modalTitle"></h3>
+          <div id="svgDiv">
+            <svg
+              onclick="closeModal(event)"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div id="modalItems"></div>
+      </div>
+    </div>
+
+    <script></script>
+    <script src="index.js"></script>
+  </body>
+</html>
