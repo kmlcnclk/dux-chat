@@ -1,8 +1,8 @@
 const teacher = { id: 1, name: 'Teacher1' };
 const courses = ['Math', 'Science'];
-const students = [
-  { id: 101, name: 'Student1', teacherId: 1, courses: ['Math'] },
-  { id: 102, name: 'Student2', teacherId: 1, courses: ['Science'] },
+const teachers = [
+  { id: 101, name: 'Teacher1', teacherId: 1, courses: ['Math'] },
+  { id: 102, name: 'Teacher2', teacherId: 1, courses: ['Science'] },
 ];
 
 const allCourseMessages = [
@@ -21,7 +21,7 @@ const specificCourseMessages = [
   },
 ];
 
-const studentMessages = [
+const teacherMessages = [
   {
     sender: 'you',
     receiver: 'Math',
@@ -82,7 +82,7 @@ function displaySpecificCourseMessages(messages) {
   });
 }
 
-function displayStudentMessages(messages) {
+function displayTeacherMessages(messages) {
   const messagesDiv = document.getElementById('messages');
   const messageAreaTitle = document.getElementById('messageAreaTitle');
 
@@ -113,6 +113,10 @@ function sendGeneralMessage() {
   displayAllCoursesMessages(allCourseMessages);
 
   textInput.value = '';
+
+  const messages = document.getElementById('messages');
+
+  messages.scrollTop = messages.scrollHeight;
 }
 
 function sendCourseMessage(course) {
@@ -127,23 +131,31 @@ function sendCourseMessage(course) {
   displaySpecificCourseMessages(specificCourseMessages);
 
   textInput.value = '';
+
+  const messages = document.getElementById('messages');
+
+  messages.scrollTop = messages.scrollHeight;
 }
 
-function sendStudentMessage(studentName) {
+function sendTeacherMessage(teacherName) {
   const textInput = document.getElementById('textInput');
 
-  const student = students.find((s) => s.name === studentName);
-  if (student) {
-    studentMessages.push({
+  const teacher = teachers.find((s) => s.name === teacherName);
+  if (teacher) {
+    teacherMessages.push({
       sender: 'me',
-      receiver: studentName,
+      receiver: teacherName,
       content: textInput.value,
     });
 
-    displayStudentMessages(studentMessages);
+    displayTeacherMessages(teacherMessages);
   }
 
   textInput.value = '';
+
+  const messages = document.getElementById('messages');
+
+  messages.scrollTop = messages.scrollHeight;
 }
 
 function openModal(event) {
@@ -152,22 +164,32 @@ function openModal(event) {
 
   let innerP = event.target.querySelector('p');
 
+  var menuElements = document.querySelectorAll('.menu');
+
+  menuElements.forEach(function (menuElement) {
+    menuElement.classList.remove('menu');
+  });
+
+  if (event.target.nodeName === 'path') {
+    console.log(event.target.nodeName === 'svg');
+    innerP = event.target.parentElement.parentElement.lastElementChild;
+  }
+
+  if (event.target.nodeName === 'svg') {
+    console.log(event.target.nodeName === 'svg');
+    innerP = event.target.parentNode.lastElementChild;
+  }
+
   if (!innerP) {
     innerP = event.target;
   }
 
   if (innerP) {
     modalItems.innerHTML = '';
-    var menuElements = document.querySelectorAll('.menu');
-
-    menuElements.forEach(function (menuElement) {
-      menuElement.classList.remove('menu');
-    });
 
     innerP.parentNode.classList.add('menu');
-    innerP.classList.add('menu');
 
-    if (innerP.innerHTML === 'Send Message to All Courses') {
+    if (innerP.innerHTML === 'See Message from All Courses') {
       const messageArea = document.getElementById('messageArea');
       messageArea.style.display = 'block';
 
@@ -181,8 +203,12 @@ function openModal(event) {
         sendGeneralMessage(event);
       };
 
+      const textInput = document.getElementById('textInput');
+
+      textInput.disabled = true;
+
       displayAllCoursesMessages(allCourseMessages);
-    } else if (innerP.innerHTML === 'Send Message to Specific Course') {
+    } else if (innerP.innerHTML === 'See Message from Specific Course') {
       for (let i = 0; i < courses.length; i++) {
         var newDiv = document.createElement('div');
         var newInnerDiv = document.createElement('div');
@@ -199,8 +225,8 @@ function openModal(event) {
       }
       modalTitle.innerHTML = innerP.innerHTML;
       document.getElementById('modal-container').style.display = 'flex';
-    } else if (innerP.innerHTML === 'Send Message to Student') {
-      for (let i = 0; i < students.length; i++) {
+    } else if (innerP.innerHTML === 'Send Message to Teacher') {
+      for (let i = 0; i < teachers.length; i++) {
         var newDiv = document.createElement('div');
         var newInnerDiv = document.createElement('div');
 
@@ -209,7 +235,7 @@ function openModal(event) {
           selectReceiver(event);
         };
 
-        newInnerDiv.innerHTML = students[i].name;
+        newInnerDiv.innerHTML = teachers[i].name;
 
         newDiv.appendChild(newInnerDiv);
         modalItems.appendChild(newDiv);
@@ -246,21 +272,35 @@ function selectReceiver(event) {
 
   const textButton = document.getElementById('textButton');
 
-  if (modalTitle.innerHTML === 'Send Message to All Courses') {
+  if (modalTitle.innerHTML === 'See Message from All Courses') {
     textButton.onclick = function () {
       sendGeneralMessage();
     };
+
+    const textInput = document.getElementById('textInput');
+
+    textInput.disabled = true;
+
     displayAllCoursesMessages(allCourseMessages);
-  } else if (modalTitle.innerHTML === 'Send Message to Specific Course') {
+  } else if (modalTitle.innerHTML === 'See Message from Specific Course') {
     textButton.onclick = function () {
       sendCourseMessage(innerDiv.innerHTML);
     };
+    const textInput = document.getElementById('textInput');
+
+    textInput.disabled = true;
+
     displaySpecificCourseMessages(specificCourseMessages);
-  } else if (modalTitle.innerHTML === 'Send Message to Student') {
+  } else if (modalTitle.innerHTML === 'Send Message to Teacher') {
     textButton.onclick = function () {
-      sendStudentMessage(innerDiv.innerHTML);
+      sendTeacherMessage(innerDiv.innerHTML);
     };
-    displayStudentMessages(studentMessages);
+
+    const textInput = document.getElementById('textInput');
+
+    textInput.disabled = false;
+
+    displayTeacherMessages(teacherMessages);
   }
 
   closeModal();
